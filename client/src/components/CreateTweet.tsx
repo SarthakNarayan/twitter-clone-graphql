@@ -1,5 +1,16 @@
 import React, { useState } from "react";
+import { useMutation, gql } from "@apollo/client";
 import "../styles/CreateTweet.css";
+
+const ADD_TWEET = gql`
+  mutation addTweet($username: String!, $tweet: String!) {
+    addTweet(tweetInput: { username: $username, tweet: $tweet }) {
+      username
+      tweet
+      _id
+    }
+  }
+`;
 
 const initialInput = {
   tweet: "",
@@ -8,13 +19,17 @@ const initialInput = {
 
 const CreateTweet: React.FC = () => {
   const [input, setInput] = useState(initialInput);
+  const [addTweet, { error }] = useMutation(ADD_TWEET);
 
   const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const tweet = {
-      description: input.tweet,
+    const variables = {
+      tweet: input.tweet,
       username: input.username,
     };
+    addTweet({
+      variables,
+    });
     window.location.href = "/";
     setInput(initialInput);
 
@@ -26,6 +41,9 @@ const CreateTweet: React.FC = () => {
       return { ...prev, [e.target.name]: e.target.value };
     });
   };
+
+  if (error) console.log(error);
+
   return (
     <div>
       <h1>Add tweet</h1>

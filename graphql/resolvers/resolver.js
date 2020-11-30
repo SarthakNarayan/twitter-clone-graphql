@@ -3,7 +3,8 @@ let Tweet = require("../../models/tweets");
 const Query = {
   tweet: async () => {
     try {
-      const tweets = await Tweet.find();
+      // sorting is for showing the most random tweet on top
+      const tweets = await Tweet.find().sort({ createdAt: "desc" });
       return tweets;
     } catch (error) {
       throw new Error(error);
