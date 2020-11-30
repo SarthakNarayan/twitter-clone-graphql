@@ -1,0 +1,18 @@
+type Tweet {
+  _id: ID!
+  username: String!
+  tweet: String!
+}
+
+input TweetInput {
+  username: String!
+  tweet: String!
+}
+
+type Query {
+  tweet: [Tweet!]!
+}
+
+type Mutation {
+  addTweet(tweetInput: TweetInput): Tweet!
+}
