@@ -3,8 +3,6 @@ const mongoose = require("mongoose");
 const { ApolloServer, gql } = require("apollo-server-express");
 const fs = require("fs");
 
-// const cors = require("cors");
-
 // graphql imports
 const resolvers = require("./graphql/resolvers/resolver");
 const typeDefs = gql(
@@ -33,17 +31,17 @@ const server = new ApolloServer({
   resolvers,
 });
 
-// using middleware
-// app.use(cors());
-// app.use(express.json());
-// app.get("/test", (req, res) => {
-//   res.send({ msg: "this is a test message" });
-// });
 server.applyMiddleware({ app, path: "/graphql" });
+
+// for heroku deployment
+// serve the static assets
+if (process.env.NODE_ENV == "production") {
+  app.use(express.static("client/build"));
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
+  });
+}
 
 app.listen({ port: PORT }, () =>
   console.log(`Server ready at http://localhost:${PORT}${server.graphqlPath}`)
 );
-
-// TODO: What to use for front end communication
-// TODO: Make a graphql request front end
