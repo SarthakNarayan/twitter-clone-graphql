@@ -4,7 +4,7 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "start": "npm run build && node dist/server",
+    "start": "ts-node src/server.ts",
     "server": "nodemon src/server.ts",
     "client": "npm start --prefix client",
     "build": "tsc",
