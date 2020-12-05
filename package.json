@@ -7,6 +7,7 @@
     "start": "npm run build && node dist/server",
     "server": "nodemon src/server.ts",
     "client": "npm start --prefix client",
+    "build": "tsc",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
   },
