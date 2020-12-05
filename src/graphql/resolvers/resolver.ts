@@ -1,5 +1,14 @@
 let Tweet = require("../../models/tweets");
 
+interface tweet {
+  tweetInput: tweetInput;
+}
+
+interface tweetInput {
+  tweet: String;
+  username: String;
+}
+
 const Query = {
   tweet: async () => {
     try {
@@ -13,7 +22,7 @@ const Query = {
 };
 
 const Mutation = {
-  addTweet: async (_, args) => {
+  addTweet: async (_: undefined, args: tweet) => {
     const { username, tweet } = args.tweetInput;
     const newTweet = new Tweet({ username, tweet });
 

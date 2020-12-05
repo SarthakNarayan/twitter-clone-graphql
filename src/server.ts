@@ -1,12 +1,16 @@
-const express = require("express");
-const mongoose = require("mongoose");
-const { ApolloServer, gql } = require("apollo-server-express");
-const fs = require("fs");
+import express from "express";
+import mongoose from "mongoose";
+import { ApolloServer, gql } from "apollo-server-express";
+import fs from "fs";
+import path from "path";
 
 // graphql imports
 const resolvers = require("./graphql/resolvers/resolver");
+const graphql_path = path.join(__dirname, "graphql/schema/tweet.gql");
 const typeDefs = gql(
-  fs.readFileSync("./graphql/schema/tweet.gql", { encoding: "utf-8" })
+  fs.readFileSync(graphql_path, {
+    encoding: "utf-8",
+  })
 );
 
 require("dotenv").config();
@@ -15,7 +19,7 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 // Database connection
-const uri = process.env.ATLAS_URI;
+const uri = process.env.ATLAS_URI!;
 mongoose.connect(process.env.MONGODB_URI || uri, {
   useNewUrlParser: true,
   useCreateIndex: true,
